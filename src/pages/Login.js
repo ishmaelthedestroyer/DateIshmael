@@ -28,6 +28,10 @@ class Login extends Component {
     console.log('onButtonPress()');
   }
 
+  onPressFooterLink() {
+    console.log('onPressFooterLink()');
+  }
+
   renderForm() {
     if (typeof this.state.user === 'undefined') {
       return <Spinner />;
@@ -65,6 +69,10 @@ class Login extends Component {
             </Button>
           </CardSection>
         </Card>
+
+        <Text style={styles.footerLink} onPress={this.onPressFooterLink.bind(this)}>
+          Or signup for an account
+        </Text>
       </View>
     );
   }
@@ -93,6 +101,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
+  },
+  footerLink: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
 
