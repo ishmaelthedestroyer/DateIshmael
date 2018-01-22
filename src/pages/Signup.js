@@ -16,10 +16,10 @@ import {
 } from '../components/common';
 import {
   loadUser,
-  login
+  signup
 } from '../actions';
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     email: '',
     password: '',
@@ -38,12 +38,12 @@ class Login extends Component {
 
   onButtonPress() {
     const { email, password } = this.state;
-    this.props.login({ email, password });
+    this.props.signup({ email, password });
   }
 
   onPressFooterLink() {
     this.props.loadUser(null);
-    Actions.signup();
+    Actions.login();
   }
 
   renderButton() {
@@ -53,7 +53,7 @@ class Login extends Component {
 
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-        Login
+        Signup
       </Button>
     );
   }
@@ -68,7 +68,7 @@ class Login extends Component {
     return (
       <View style={styles.form}>
         <Text style={styles.header}>
-          Login
+          Signup
         </Text>
 
         <Card>
@@ -105,7 +105,7 @@ class Login extends Component {
         </Card>
 
         <Text style={styles.footerLink} onPress={this.onPressFooterLink.bind(this)}>
-          Or signup for an account
+          Or login to your account
         </Text>
       </View>
     );
@@ -157,5 +157,5 @@ const mapStateToProps = ({ auth }) => {
 
 export default connect(mapStateToProps, {
   loadUser,
-  login
-})(Login);
+  signup
+})(Signup);

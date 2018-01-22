@@ -1,5 +1,6 @@
 import {
   AUTH_LOAD,
+  AUTH_SIGNUP,
   AUTH_LOGIN,
   AUTH_LOGIN_FAIL,
   AUTH_LOGIN_SUCCESS
@@ -13,30 +14,33 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AUTH_LOGIN:
+    case AUTH_SIGNUP:
       return {
         ...state,
         error: undefined,
         loading: true,
       };
+    case AUTH_LOGIN:
+      return {
+        user: null,
+        error: undefined,
+        loading: true,
+      };
     case AUTH_LOGIN_FAIL:
       return {
-        ...state,
+        ...INITIAL_STATE,
+        user: null,
         error: action.payload,
-        loading: false,
       };
     case AUTH_LOGIN_SUCCESS:
       return {
-        ...state,
+        ...INITIAL_STATE,
         user: action.payload,
-        error: undefined,
-        loading: false,
       };
     case AUTH_LOAD:
       return {
-        ...state,
+        ...INITIAL_STATE,
         user: action.payload,
-        loading: false,
       };
     default:
       return state;
