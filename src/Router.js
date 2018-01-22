@@ -23,10 +23,9 @@ const RouterComponent = () => {
           />
         </Scene>
 
-        <Scene key='home' duration={0}>
+        <Scene key='home'>
           <Scene
             initial
-            duration={0}
             key='home'
             component={Home}
             title='Home'

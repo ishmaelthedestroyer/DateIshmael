@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text
+  StyleSheet
 } from 'react-native';
 import {
   Card
 } from '../components/common';
+import SwipeDeck from '../containers/SwipeDeck';
 
 class Home extends Component {
   render() {
     return (
       <Card style={styles.container}>
-        <Text style={styles.header}>
-          Home
-        </Text>
+        <SwipeDeck />
       </Card>
     );
   }
