@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -12,16 +13,18 @@ import {
   Input,
   Spinner
 } from '../components/common';
+import { loadUser } from '../actions';
+import FIREBASE_CONFIG from '../../firebase.json';
 
 class Login extends Component {
   state = {
-    user: undefined,
     email: '',
     password: '',
   }
 
   componentWillMount() {
-    firebase.auth().onAuthStateChanged(user => this.setState({ user }));
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebase.auth().onAuthStateChanged(user => this.props.loadUser(user));
   }
 
   onButtonPress() {
@@ -33,7 +36,7 @@ class Login extends Component {
   }
 
   renderForm() {
-    if (typeof this.state.user === 'undefined') {
+    if (typeof this.props.user === 'undefined') {
       return <Spinner />;
     }
 
@@ -110,5 +113,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = ({ user }) => {
+  return { user };
+};
 
-export default Login;
+export default connect(mapStateToProps, { loadUser })(Login);
