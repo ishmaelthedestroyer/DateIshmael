@@ -13,7 +13,10 @@ import {
   Input,
   Spinner
 } from '../components/common';
-import { loadUser } from '../actions';
+import {
+  loadUser,
+  login
+} from '../actions';
 import FIREBASE_CONFIG from '../../firebase.json';
 
 class Login extends Component {
@@ -28,17 +31,32 @@ class Login extends Component {
   }
 
   onButtonPress() {
-    console.log('onButtonPress()');
+    const { email, password } = this.state;
+    this.props.login({ email, password });
   }
 
   onPressFooterLink() {
     console.log('onPressFooterLink()');
   }
 
+  renderButton() {
+    if (this.props.auth.loading) {
+      return <Spinner size='small' />;
+    }
+
+    return (
+      <Button onPress={this.onButtonPress.bind(this)}>
+        Login
+      </Button>
+    );
+  }
+
   renderForm() {
-    if (typeof this.props.user === 'undefined') {
+    if (typeof this.props.auth.user === 'undefined') {
       return <Spinner />;
     }
+
+    const error = this.props.auth.error;
 
     return (
       <View style={styles.form}>
@@ -67,10 +85,16 @@ class Login extends Component {
           </CardSection>
 
           <CardSection>
-            <Button onPress={this.onButtonPress.bind(this)}>
-              Login
-            </Button>
+            {this.renderButton()}
           </CardSection>
+
+          { error && (
+            <CardSection>
+              <Text style={styles.error}>
+                {error}
+              </Text>
+            </CardSection>
+          )}
         </Card>
 
         <Text style={styles.footerLink} onPress={this.onPressFooterLink.bind(this)}>
@@ -105,6 +129,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  error: {
+    width: '100%',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#f00',
+  },
   footerLink: {
     fontSize: 14,
     fontWeight: 'bold',
@@ -113,8 +144,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user }) => {
-  return { user };
+const mapStateToProps = ({ auth }) => {
+  return { auth };
 };
 
-export default connect(mapStateToProps, { loadUser })(Login);
+export default connect(mapStateToProps, {
+  loadUser,
+  login
+})(Login);
